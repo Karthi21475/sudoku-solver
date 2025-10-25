@@ -24,6 +24,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def root():
+    return {"message": "Sudoku solver API is running!"}
+
 @app.post("/solve")
 async def solve(file:UploadFile=File(...)):
     try:
