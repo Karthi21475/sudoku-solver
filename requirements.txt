@@ -6,3 +6,7 @@ opencv-python
 pytesseract
 numpy
 python-multipart
+paddleocr
+paddlepaddle
+pandas
+python-dotenv
