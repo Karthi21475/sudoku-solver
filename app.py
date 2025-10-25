@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from sudoku import extract_and_solve
 import numpy as np
 import cv2
+import pandas as pd
 app=FastAPI()
 
 @app.post("/solve")
@@ -15,10 +16,11 @@ async def solve(file:UploadFile=File(...)):
 
         solved_board = extract_and_solve(img)
         solved_board=np.array(solved_board).astype(int).tolist()
+        df = pd.DataFrame(solved_board)
 
         return JSONResponse(content={
             "status": "success",
-            "solved_board": solved_board
+            "solved_board": df.to_dict(orient="records")
         })
     except Exception as e:
         return JSONResponse(content={
