@@ -5,7 +5,7 @@ from paddleocr import PaddleOCR
 model = PaddleOCR(
     use_angle_cls=True,
     lang="en",
-    text_detection_model_dir="models/PP-OCRv5_mobile_det"
+    text_detection_model_dir="models/PP-OCRv5_mobile_det",
     text_recognition_model_dir="models/PP-OCRv5_mobile_rec"
 )
 
