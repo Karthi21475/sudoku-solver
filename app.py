@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sudoku import extract_and_solve
 from dotenv import load_dotenv
+import uvicorn
 
 load_dotenv()
 
@@ -42,3 +43,7 @@ async def solve(file:UploadFile=File(...)):
             "status": "error",
             "message": str(e)
         })
+    
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
