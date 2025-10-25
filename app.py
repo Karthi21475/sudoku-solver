@@ -1,12 +1,27 @@
-from paddleocr import PaddleOCR
+from fastapi import FastAPI,File,UploadFile
+from fastapi.responses import JSONResponse
+from sudoku import extract_and_solve
+import numpy as np
+import cv2
+app=FastAPI()
 
-ocr = PaddleOCR(
-    use_doc_orientation_classify=False, 
-    use_doc_unwarping=False, 
-    use_textline_orientation=False)
+@app.post("/solve")
+async def solve(file:UploadFile=File(...)):
+    try:
 
-result = ocr.predict("Resources/sudoku_puzz.png")
-for res in result:
-    res.print()
-    res.save_to_img("output")
-    res.save_to_json("output")
+        contents = await file.read()
+        npimg = np.frombuffer(contents, np.uint8)
+        img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+
+        solved_board = extract_and_solve(img)
+        solved_board=np.array(solved_board).astype(int).tolist()
+
+        return JSONResponse(content={
+            "status": "success",
+            "solved_board": solved_board
+        })
+    except Exception as e:
+        return JSONResponse(content={
+            "status": "error",
+            "message": str(e)
+        })
