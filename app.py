@@ -11,8 +11,11 @@ from pydantic_settings import BaseSettings
 from paddleocr import PaddleOCR
 
 model = PaddleOCR(
-    text_recognition_model_name="PP-OCRv3_mobile_rec",
-    use_angle_cls=False
+    text_detection_model_name="PP-OCRv5_mobile_det",
+    text_recognition_model_name="PP-OCRv5_mobile_rec",
+    use_doc_orientation_classify=False,
+    use_doc_unwarping=False,
+    use_textline_orientation=False,
 )
 
 load_dotenv()
@@ -60,4 +63,4 @@ async def solve(file:UploadFile=File(...)):
         })
     
 if __name__ == "__main__":
-    uvicorn.run(app, port=settings.port)
+    uvicorn.run(app, host="0.0.0.0", port=settings.port)
