@@ -11,6 +11,8 @@ from pydantic_settings import BaseSettings
 from paddleocr import PaddleOCR
 
 model = PaddleOCR(
+    det=False,
+    rec=True,
     text_recognition_model_name="PP-OCRv3_mobile_rec",
     use_doc_orientation_classify=False,
     use_doc_unwarping=False,
