@@ -10,3 +10,4 @@ paddleocr
 pandas
 python-dotenv
 paddlepaddle
+pydantic-settings

@@ -7,12 +7,17 @@ from fastapi.responses import JSONResponse
 from sudoku import extract_and_solve
 from dotenv import load_dotenv
 import uvicorn
+from pydantic_settings import BaseSettings
 
 load_dotenv()
 
 app=FastAPI()
 
-fe_url = os.getenv("FRONTEND_URL", "*")
+class Settings(BaseSettings):
+    frontend_url:str = os.getenv("FRONTEND_URL")
+    port:int =int(os.getenv("PORT"))
+
+settings=Settings()
 
 origins = ["https://frontend-cvug.vercel.app"]
 
@@ -49,5 +54,4 @@ async def solve(file:UploadFile=File(...)):
         })
     
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    uvicorn.run(app, host="0.0.0.0", port=settings.port)
