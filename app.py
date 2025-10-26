@@ -8,16 +8,10 @@ from sudoku import extract_and_solve
 from dotenv import load_dotenv
 import uvicorn
 from pydantic_settings import BaseSettings
-from paddleocr import PaddleOCR
 
-model = PaddleOCR(
-    det=False,
-    rec=True,
-    text_recognition_model_name="PP-OCRv3_mobile_rec",
-    use_doc_orientation_classify=False,
-    use_doc_unwarping=False,
-    use_textline_orientation=False
-)
+from paddleocr import TextRecognition
+
+model = TextRecognition()
 
 load_dotenv()
 
