@@ -8,18 +8,20 @@ from sudoku import extract_and_solve
 from dotenv import load_dotenv
 import uvicorn
 from pydantic_settings import BaseSettings
+from paddleocr import PaddleOCR
 
-from paddleocr import TextRecognition
-
-model = TextRecognition()
+model = PaddleOCR(
+    text_recognition_model_name="PP-OCRv3_mobile_rec",
+    use_angle_cls=False
+)
 
 load_dotenv()
 
 app=FastAPI()
 
 class Settings(BaseSettings):
-    frontend_url:str = os.getenv("FRONTEND_URL")
-    port:int =int(os.getenv("PORT"))
+    # frontend_url:str = os.getenv("FRONTEND_URL")
+    port:int =int(os.getenv("PORT",3000))
 
 settings=Settings()
 
@@ -58,4 +60,4 @@ async def solve(file:UploadFile=File(...)):
         })
     
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=settings.port)
+    uvicorn.run(app, port=settings.port)
