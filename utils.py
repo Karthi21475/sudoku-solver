@@ -1,14 +1,6 @@
 import cv2
 import numpy as np
-from paddleocr import PaddleOCR
 
-model = PaddleOCR(
-    text_detection_model_name="PP-OCRv3_mobile_det",
-    text_recognition_model_name="PP-OCRv3_mobile_rec",
-    use_doc_orientation_classify=False,
-    use_doc_unwarping=False,
-    use_textline_orientation=False
-)
 #### 1 - Preprocessing Image
 def preProcess(img):
     imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # CONVERT IMAGE TO GRAY SCALE
@@ -57,7 +49,7 @@ def splitBoxes(img):
 
 
 #### 4 - GET PREDECTIONS ON ALL IMAGES
-def getPredection(boxes):
+def getPredection(boxes,model):
     result = []
     for image in boxes:
         if len(image.shape) == 2:

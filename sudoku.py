@@ -11,7 +11,7 @@ widthImg = 450
 ########################################################################
 
 
-def extract_and_solve(img):
+def extract_and_solve(img,model):
     img = cv2.resize(img, (widthImg, heightImg))
     imgBlank = np.zeros((heightImg, widthImg, 3), np.uint8)
     imgThreshold = preProcess(img)
@@ -35,7 +35,7 @@ def extract_and_solve(img):
 
         imgSolvedDigits = imgBlank.copy()
         boxes = splitBoxes(imgWarpColored)
-        numbers = getPredection(boxes)
+        numbers = getPredection(boxes,model)
         imgDetectedDigits = displayNumbers(imgDetectedDigits, numbers, color=(255, 0, 255))
         numbers = np.asarray(numbers)
         posArray = np.where(numbers > 0, 0, 1)

@@ -8,6 +8,15 @@ from sudoku import extract_and_solve
 from dotenv import load_dotenv
 import uvicorn
 from pydantic_settings import BaseSettings
+from paddleocr import PaddleOCR
+
+model = PaddleOCR(
+    text_detection_model_name="PP-OCRv3_mobile_det",
+    text_recognition_model_name="PP-OCRv3_mobile_rec",
+    use_doc_orientation_classify=False,
+    use_doc_unwarping=False,
+    use_textline_orientation=False
+)
 
 load_dotenv()
 
@@ -40,7 +49,7 @@ async def solve(file:UploadFile=File(...)):
         npimg = np.frombuffer(contents, np.uint8)
         img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
 
-        solved_board = extract_and_solve(img)
+        solved_board = extract_and_solve(img,model)
         solved_board=np.array(solved_board).astype(int).tolist()
 
         return JSONResponse(content={
