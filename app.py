@@ -14,7 +14,7 @@ app=FastAPI()
 
 fe_url = os.getenv("FRONTEND_URL", "*")
 
-origins = [fe_url]
+origins = ["https://frontend-cvug.vercel.app"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -49,5 +49,5 @@ async def solve(file:UploadFile=File(...)):
         })
     
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 10000))
     uvicorn.run(app, host="0.0.0.0", port=port)
